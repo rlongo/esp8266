@@ -1,0 +1,6 @@
+*.o
+*.elf
+*.hex
+*.dblite
+src/network_config.h
+.pioenvs
