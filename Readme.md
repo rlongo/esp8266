@@ -39,3 +39,4 @@ Pin-Out Guide [Arduino & ESP8266 Reference](http://forum.arduino.cc/index.php?to
 |  7           |     LED      | Good Network Connection |
 |  6           |     LED       | Error in network transmission |
 |  5           |     LED      | Network IO Occurring |
+|  4           |     BUTTON      | Ping the desired website |

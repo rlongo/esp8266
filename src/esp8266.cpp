@@ -1,5 +1,11 @@
 #include "esp8266.h"
 
+bool didResponseSucceed(String response)
+{
+  char *connectionSucceededResponseString = "OK\r\n";
+  return response.endsWith(connectionSucceededResponseString);
+}
+
 String sendATCommand(String command, const int timeout)
 {
 
@@ -35,27 +41,16 @@ String sendATCommand(String command, const int timeout)
   }
 
   return response;
-
 }
 
 bool connectWifi(String ssid, String pwd)
 {
   // Send the connection request
   String cmd = "AT+CWJAP=\"" + ssid + "\",\"" + pwd + "\"";
-  String successfulResponseSubstr = "OK\r\n";
   String response = sendATCommand(cmd, NETWORK_TIMEOUT_LONG);
 
-  bool didConnectionSucceed = false;
-
-  // Parse the response for a success
-  if (response.length() > successfulResponseSubstr.length())
-  {
-      response = response.substring(
-        response.length() - successfulResponseSubstr.length()
-      );
-
-      didConnectionSucceed = 0 == response.compareTo(successfulResponseSubstr);
-  }
+  // Validate that we connected
+  bool didConnectionSucceed = didResponseSucceed(response);
 
   if (DEBUG)
   {

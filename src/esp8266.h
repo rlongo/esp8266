@@ -18,10 +18,17 @@
 #define NETWORK_TIMEOUT_SHORT 2500
 
 /*
+  Determines whether the response succeeded and issued the succeded String "OK"
+  RETURNS:: true if it did succeed, false otherwise
+*/
+bool didResponseSucceed(String response);
+
+/*
   Attempts to send a given AT command to the ESP8266
     command:: the command, without '\r\n' (we append that)
     timeout:: how long to wait before giving up on the communication
-    RETURNS:: the response
+    RETURNS:: the response - It's best to process this and then use
+              the String.endsWith(str) function instead of Serial3.find(str)
 */
 String sendATCommand(String command, const int timeout);
 
