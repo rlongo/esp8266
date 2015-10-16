@@ -23,7 +23,7 @@ int pingButtonState = 0;
 #define WEBSITE_PUBLIC_IP "192.168.1.8" // RoR server
 #define WEBSITE_PORT "5000" // Port
 #define WEBSITE_HOST_NAME "192.168.1.8" // Equivalent to google.com from my understanding
-#define API_GET_SCHOOLS "GET /api/2.0/schools HTTP/1.0\r\n" // API Mount point for getting a list of schools
+#define API_GET_SCHOOLS "/api/2.0/schools"
 
 /*
   By design, on every TCP connection, we alway kill the connection whenever we
@@ -86,22 +86,12 @@ void loop() {
     // Step 1: connect to a TCP host
     digitalWrite(LED_NETWORK_IO, HIGH); // Start NetworkIO
     String response = sendATCommand(pingWebsiteCommand, NETWORK_TIMEOUT_SHORT);
-    if (!didResponseSucceed(response))
-    {
-      digitalWrite(LED_BAD_CONNECTION, HIGH);
-      digitalWrite(LED_GOOD_CONNECTION, LOW);
-      isConnected = false;
-    }
-    digitalWrite(LED_NETWORK_IO, LOW); // End NetworkIO
 
     // Step 2: Construct a command and send it off
-    if (isConnected)
+    if (didResponseSucceed(response))
     {
       // Actual command
-      String apiCommand = API_GET_SCHOOLS;
-      apiCommand += "\r\nHost: ";
-      apiCommand += WEBSITE_HOST_NAME;
-      apiCommand += "\r\n";
+      String apiCommand = getHttpSessionCommand(HTTP_GET, API_GET_SCHOOLS, WEBSITE_HOST_NAME);
 
       // The packet header, it is the size of the command
       String tcpPacket = "AT+CIPSEND=" + String(apiCommand.length());
@@ -111,6 +101,7 @@ void loop() {
       sendATCommand(apiCommand, NETWORK_TIMEOUT_SHORT);
       digitalWrite(LED_NETWORK_IO, LOW);
     }
+    digitalWrite(LED_NETWORK_IO, LOW); // End NetworkIO
   }
 
 }

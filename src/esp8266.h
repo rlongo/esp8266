@@ -17,6 +17,12 @@
 #define NETWORK_TIMEOUT_LONG  12000
 #define NETWORK_TIMEOUT_SHORT 2500
 
+// HTTP Methods
+#define HTTP_GET 0
+#define HTTP_PUT 1
+#define HTTP_POST 2
+#define HTTP_DELETE 3
+
 /*
   Determines whether the response succeeded and issued the succeded String "OK"
   RETURNS:: true if it did succeed, false otherwise
@@ -39,5 +45,13 @@ String sendATCommand(String command, const int timeout);
   RETURNS:: true if succeeded
 */
 bool connectWifi(String ssid, String pwd);
+
+/*
+  Constructs an HTTP header that is used for HTTP connections.
+  httpMethod:: Use the HTTP Methods at the top, or else will use GET
+  path:: path of the site to access (e.g. /api/12/potato)
+  host:: the host that we are trying to access. Is Nullable
+*/
+String getHttpSessionCommand(unsigned httpMethod, String path, String host);
 
 #endif

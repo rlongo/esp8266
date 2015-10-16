@@ -60,3 +60,38 @@ bool connectWifi(String ssid, String pwd)
   }
   return didConnectionSucceed;
 }
+
+
+String getHttpSessionCommand(unsigned httpMethod, String path, String host)
+{
+  String session;
+
+  if (httpMethod >= 4 ) {
+    return session;
+  }
+
+  // The http method
+  switch (httpMethod)
+  {
+    case HTTP_PUT:
+    session = "PUT ";
+    case HTTP_POST:
+    session = "POST ";
+    case HTTP_DELETE:
+    session = "DELETE ";
+    case HTTP_GET:
+    default:
+    session = "GET ";
+  }
+
+  // The session and connection type
+  session += (path == NULL) ? "/" : path;
+  session += " HTTP/1.0\r\n\r\n"; // Must have two, or requests aren't processed...
+
+  // The host
+  session += "Host: ";
+  session += host;
+  session += "\r\n";
+
+  return session;
+}
