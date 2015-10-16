@@ -20,10 +20,10 @@ int isConnected = 0;
 int pingButtonState = 0;
 
 // Connection details
-#define WEBSITE_PUBLIC_IP "192.168.1.8" // RoR server
-#define WEBSITE_PORT "5000" // Port
-#define WEBSITE_HOST_NAME "192.168.1.8" // Equivalent to google.com from my understanding
-#define API_GET_SCHOOLS "/api/2.0/schools"
+#define WEBSITE_NAME "www.google.com" // The server (public domain name, or IP)
+#define WEBSITE_PORT "80" // Port
+#define WEBSITE_HOST_NAME "google.com" // Equivalent to google.com from my understanding
+#define API_GET "/"
 
 /*
   By design, on every TCP connection, we alway kill the connection whenever we
@@ -61,7 +61,7 @@ void setup() {
 
   // Initiate a connection to something over wifi
   pingWebsiteCommand = "AT+CIPSTART=\"TCP\",\""; // Setup conneection using TCP
-  pingWebsiteCommand += WEBSITE_PUBLIC_IP;
+  pingWebsiteCommand += WEBSITE_NAME;
   pingWebsiteCommand += "\",";
   pingWebsiteCommand += WEBSITE_PORT;
 
@@ -91,7 +91,7 @@ void loop() {
     if (didResponseSucceed(response))
     {
       // Actual command
-      String apiCommand = getHttpSessionCommand(HTTP_GET, API_GET_SCHOOLS, WEBSITE_HOST_NAME);
+      String apiCommand = getHttpSessionCommand(HTTP_GET, API_GET, WEBSITE_HOST_NAME);
 
       // The packet header, it is the size of the command
       String tcpPacket = "AT+CIPSEND=" + String(apiCommand.length());
