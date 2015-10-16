@@ -28,8 +28,8 @@ Pin-Out Guide [Arduino & ESP8266 Reference](http://forum.arduino.cc/index.php?to
 
 | Arduino PIN#   |    ESP8266 PIN |
 |----------------|----------------|
-|  RX3           |     RX         |
-|  TX3           |     TX         |
+|  RX3           |     TX         |
+|  TX3           |     RX         |
 |  GND           |     GND        |
 |  3.3V          |  VCC, CH_PD, RESET |
 
